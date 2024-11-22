@@ -2,10 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    // You can specify a list of allowed domains here
     domains: [
-      "media.licdn.com", // Add this domain
-      "example.com", // You can add other domains here as well
-    ], // Add the domain here
+      "media.licdn.com", // Example of a valid domain
+      "example.com",
+      "treatedcolors.com",
+      // Add your other trusted domains here
+      // You can add more domains
+    ],
   },
 };
 
