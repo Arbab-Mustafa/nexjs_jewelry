@@ -10,8 +10,8 @@ const data = [
     link: "/",
   },
   {
-    name: "About",
-    link: "/about",
+    name: "Gallery",
+    link: "/gallery",
   },
   {
     name: "Jewelry",
