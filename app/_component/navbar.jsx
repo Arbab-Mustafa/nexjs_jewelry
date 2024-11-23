@@ -21,6 +21,10 @@ const data = [
     name: "Contact",
     link: "/contact",
   },
+  {
+    name: "About",
+    link: "/about",
+  },
 ];
 
 const Navbar = () => {
