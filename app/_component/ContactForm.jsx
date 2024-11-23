@@ -44,7 +44,7 @@ const ContactForm = () => {
                   />
                 </div>
 
-                {/* address Phone */}
+                {/* address & Phone */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="sr-only" htmlFor="email">
@@ -82,6 +82,33 @@ const ContactForm = () => {
                     type="text"
                     id="city"
                   />
+                </div>
+
+                {/*  Street & Zip */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="sr-only" htmlFor="street">
+                      Street
+                    </label>
+                    <input
+                      className="w-full rounded-lg border  p-3 text-sm"
+                      placeholder="Street Num"
+                      type="text"
+                      id="street"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="sr-only" htmlFor="zip">
+                      Zip
+                    </label>
+                    <input
+                      className="w-full rounded-lg border p-3 text-sm"
+                      placeholder="Zip Code"
+                      type="text"
+                      id="zip"
+                    />
+                  </div>
                 </div>
 
                 {/* Submit */}
