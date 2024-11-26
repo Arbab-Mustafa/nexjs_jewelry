@@ -56,9 +56,15 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       animation: {
-        fadeIn: "fadeIn 0.3s ease-in-out",
-        scaleUp: "scaleUp 0.3s ease-in-out",
+        "scroll-left-right": "scroll-left-right 20s linear infinite",
       },
+      keyframes: {
+        "scroll-left-right": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+
       scaleUp: {
         "0%": { transform: "scale(0.9)" },
         "100%": { transform: "scale(1)" },

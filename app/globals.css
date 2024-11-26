@@ -70,3 +70,17 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* globals.css */
+@keyframes scrollInfinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scrollInfinite {
+  animation: scrollInfinite linear infinite;
+}
