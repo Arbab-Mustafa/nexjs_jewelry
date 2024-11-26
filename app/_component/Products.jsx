@@ -46,7 +46,7 @@ const ProductCards = () => {
       <h2 className="text-center text-base md:text-4xl">Our Products</h2>
 
       {/* Scroll Container */}
-      <div className="overflow-hidden relative">
+      <div className="overflow-hidden relative w-[80%] md:w-[50%] mx-auto">
         <div
           className="flex space-x-6 animate-scrollInfinite hover:animate-none"
           style={{ animationDuration: "20s" }}

@@ -15,7 +15,7 @@ const data = [
   },
   {
     name: "Jewelry",
-    link: "/Jewelry",
+    link: "/jewelry",
   },
   {
     name: "Contact",
