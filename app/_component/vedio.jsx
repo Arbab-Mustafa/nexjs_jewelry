@@ -2,7 +2,7 @@ import React from "react";
 
 const Vedio = () => {
   return (
-    <div className="  mt-12 rounded-lg  shadow-xl  my-2 md:my-4 py-2 ">
+    <div className="  mt-12 rounded-lg    my-2 md:my-4 py-2 ">
       <h2 className="text-xl md:text-3xl text-center py-2 md:py-6">
         Company Presentation Video
       </h2>
