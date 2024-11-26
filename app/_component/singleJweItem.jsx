@@ -3,45 +3,38 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const ProductCard = ({ product }) => {
   const router = useRouter();
 
-  // Function to redirect to the All Products Page
   const handleProductClick = () => {
-    router.push("/jewelry"); // This redirects to the All Products Page
+    router.push("/jewelry"); // Redirect to the all products page
   };
 
   return (
-    <div
-      className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer group"
-      onClick={handleProductClick} // Redirect on card click
+    <motion.div
+      className=" bg-gray-100  p-2 md:p-4 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform animate-fadeInScale"
+      onClick={handleProductClick}
+      initial={{ opacity: 0, scale: 0.8 }} // Initial state when not visible
+      whileInView={{ opacity: 1, scale: 1 }} // Final state when in view
+      viewport={{ once: true, amount: 0.3 }} // Trigger animation only once when 30% is visible
+      transition={{ duration: 0.8, ease: "easeOut" }} // Smooth transition
     >
-      {/* Product Image with Badge */}
-      <div className="relative w-full h-60 rounded-lg overflow-hidden">
+      <div className="relative w-full h-48 overflow-hidden rounded-lg">
         <Image
           src={product.image}
           alt={product.name}
-          layout="fill"
+          width={300}
+          height={200}
           objectFit="cover"
-          className="transition-transform group-hover:scale-105 duration-300 ease-in-out"
+          className="w-full h-full object-cover"
         />
-        {/* Badge */}
-        {product.isNew && (
-          <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-lg">
-            New Arrival
-          </span>
-        )}
       </div>
-
-      {/* Product Info */}
       <div className="mt-4 text-center">
-        <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-          {product.name}
-        </h3>
-        <p className="text-gray-500 mt-1 text-sm">{product.price}</p>
+        <h3 className="text-sm  md:text-lg font-semibold">{product.name}</h3>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

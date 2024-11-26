@@ -35,7 +35,7 @@ const ProductCard = ({ image, altText }) => {
           onClick={closeModal} // Close modal when clicked outside
         >
           <div
-            className="relative max-w-full max-h-full overflow-auto bg-gray-100 rounded-lg"
+            className="relative max-w-[40vh] max-h-[50vh] overflow-auto bg-gray-100 rounded-lg"
             onClick={(e) => e.stopPropagation()} // Prevent closing modal on inner content click
           >
             {/* Close Button */}
