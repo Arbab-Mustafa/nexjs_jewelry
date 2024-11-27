@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Pink T-Shirt",
+    "image": "/images/pink-tshirt.jpg",
+    "color": "pink"
+  },
+  {
+    "id": 2,
+    "name": "Blue Jeans",
+    "image": "/images/blue-jeans.jpg",
+    "color": "blue"
+  },
+  {
+    "id": 3,
+    "name": "Yellow Cap",
+    "image": "/images/yellow-cap.jpg",
+    "color": "yellow"
+  },
+  {
+    "id": 4,
+    "name": "Cognac Leather Bag",
+    "image": "/images/cognac-leather-bag.jpg",
+    "color": "cognac"
+  },
+  {
+    "id": 5,
+    "name": "Green Hoodie",
+    "image": "/images/green-hoodie.jpg",
+    "color": "green"
+  },
+  {
+    "id": 6,
+    "name": "Mixed Color Sneakers",
+    "image": "/images/mixed-color-sneakers.jpg",
+    "color": "mixed"
+  }
+]
