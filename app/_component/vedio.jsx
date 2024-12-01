@@ -9,7 +9,7 @@ const Vedio = () => {
       {/* Video Container with Hover Effect */}
       <div className="   mx-auto">
         <iframe
-          className="  mx-auto  w-auto md:w-[55rem]   h-[20rem] md:h-[27rem] transition-all group-hover:scale-105 group-hover:opacity-90 rounded-md"
+          className="  mx-auto  w-auto md:w-[59rem]   h-[20rem] md:h-[27rem] transition-all group-hover:scale-105 group-hover:opacity-90 rounded-md"
           src="https://www.youtube.com/embed/KF0yuG7uWyo?si=RnFh6Zvk4WdP_frm"
           title="YouTube video player"
           frameBorder="0"
