@@ -50,7 +50,7 @@ export default function ProductsClient({ products }) {
               alt={product.name}
               className="w-full h-48 object-cover rounded-t-lg"
             />
-            <h2 className="text-xl font-semibold mt-3">{product.name}</h2>
+
             <p className="text-sm text-gray-500 mt-1">{product.color}</p>
           </div>
         ))}
