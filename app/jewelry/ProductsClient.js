@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ProductsClient({ products }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -50,7 +51,7 @@ export default function ProductsClient({ products }) {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-6xl font-extrabold text-center mb-12 text-gray-800 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-text">
+      <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-center mb-12 text-gray-800 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-text">
         Explore Our Products
       </h1>
 
@@ -79,13 +80,17 @@ export default function ProductsClient({ products }) {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4  sm:gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-8">
         {filteredProducts.map((product, index) => (
-          <div
+          <motion.div
             key={product.id}
             className="group bg-white border border-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <div className=" w-full overflow-hidden">
+            <div className="w-full overflow-hidden">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -98,7 +103,7 @@ export default function ProductsClient({ products }) {
             <div className="p-6">
               <p className="text-sm text-gray-500">Color: {product.color}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -108,11 +113,9 @@ export default function ProductsClient({ products }) {
         </div>
       )}
 
-      {/* Modal for image viewing */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 backdrop-blur-sm">
           <div className="relative bg-white p-6 rounded-lg max-w-4xl mx-auto transform scale-95 transition-all duration-500 ease-in-out modal-content">
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 p-2 sm:p-3 text-white bg-gray-400 rounded-full hover:bg-gray-600 focus:outline-none transition-all duration-300 ease-in-out"
               onClick={closeModal}
@@ -120,8 +123,6 @@ export default function ProductsClient({ products }) {
             >
               ✖
             </button>
-
-            {/* Navigation Buttons */}
             <button
               className="absolute top-1/2 left-0 p-2 sm:p-4 text-white bg-gray-400 rounded-full transform -translate-y-1/2 hover:bg-gray-600 transition-all duration-300 ease-in-out"
               onClick={prevImage}
@@ -136,15 +137,13 @@ export default function ProductsClient({ products }) {
             >
               &#62;
             </button>
-
-            {/* Image Display */}
-            <div className="w-[40vh] h-[40vh]  md:w-[70vh] md:h-auto max-w-7xl">
+            <div className="w-[40vh] h-[40vh] md:w-[70vh] md:h-auto max-w-7xl">
               <Image
                 src={filteredProducts[currentImageIndex].image}
                 alt={filteredProducts[currentImageIndex].name}
                 className="w-full h-auto object-contain mx-auto transition-all duration-500 ease-in-out"
-                width={800} // Large width for better visibility
-                height={800} // Large height for better visibility
+                width={800}
+                height={800}
               />
             </div>
           </div>
