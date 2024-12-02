@@ -39,7 +39,7 @@ const Navbar = () => {
           <div className=" flex items-center justify-center ">
             <Link href="/" className=" ">
               <Image
-                src="https://media.licdn.com/dms/image/v2/D4E22AQFvXDq4GnEFag/feedshare-shrink_800/feedshare-shrink_800/0/1723937461156?e=1735171200&v=beta&t=gOjMFYZkNsF1NrbOjN5rYDFpajseF7FQFVgF4oAdqWQ"
+                src="https://www.lotuscolors.net/content/images/slider.jpg"
                 alt="logo"
                 width={50}
                 height={50}

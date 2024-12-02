@@ -7,6 +7,7 @@ const nextConfig = {
       "*", // Allow all domains to be used
       "media.licdn.com", // Example of a valid domain
       "example.com",
+      "www.lotuscolors.net",
       "treatedcolors.com",
       "scontent-fra3-1.cdninstagram.com",
       "scontent-fra3-2.cdninstagram.com",
