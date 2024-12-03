@@ -28,7 +28,7 @@ const Hero = () => {
   return (
     <div>
       <section
-        className="relative bg-no-repeat bg-cover bg-center h-[70vh] transition-all duration-1000 delay-400 ease-in-out"
+        className="relative bg-no-repeat bg-cover bg-center h-[75vh] transition-all duration-1000 delay-400 ease-in-out"
         style={{
           backgroundImage: `url(${images[currentImageIndex]})`,
         }}
