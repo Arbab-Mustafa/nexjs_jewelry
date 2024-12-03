@@ -20,7 +20,7 @@ const Hero = () => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 1500); // Change every second
+    }, 1900); // Change every second
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, [images.length]);
