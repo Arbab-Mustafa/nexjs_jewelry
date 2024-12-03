@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Jpeg Compressor - Compress your bulk images for free</title>
+  <meta name="description"
+    content='Jpeg compressor is a free online image optimization tool that can compress JPEG, PNG, JPG, GIFs, and SVG images without reducing their quality.'>
+  <meta name="author" content="">
+  <meta name="robots" content="noindex, nofollow">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./image/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./image/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./image/favicon-16x16.png">
+  <!-- <link rel="manifest" href="./image/site.webmanifest"> -->
+  <link rel="mask-icon" href="./image/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+  <meta name="apple-mobile-web-app-title" content="Jpeg Compressor">
+  <meta name="application-name" content="Jpeg Compressor">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-title" content="jpegcompressor">
+  <meta name="application-name" content="jpegcompressor">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="canonical" href="https://jpegcompressor.com/">
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+
+      overflow-x: hidden;
+    }
+
+    header {
+      background-image: linear-gradient(45deg, rgb(0, 159, 253), rgb(42, 42, 114));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+    }
+
+    .header-height {
+      height: 55px;
+    }
+
+    nav {
+      margin-right: 0.1rem;
+      /* Shift menu slightly left */
+    }
+
+    #thumbnails {
+      display: flex;
+      overflow-x: auto;
+      max-width: 100%;
+      height: 5rem;
+      margin-top: 1rem;
+    }
+
+    #thumbnails div {
+      flex: 0 0 auto;
+    }
+
+    #addMoreBtn {
+
+      height: 4rem;
+      width: 3rem;
+      flex-shrink: 0;
+      margin-top: 1rem;
+    }
+
+    #addMoreBtn:hover {
+
+      background-color: #2563eb;
+    }
+
+    #selectFilesBtn {
+      transition: transform 0.2s, background-color 0.2s;
+      margin-top: 1.7rem;
+    }
+
+    #selectFilesBtn:hover {
+      transform: scale(1.05);
+      background-color: #2563eb;
+    }
+
+    .border-dashed {
+      height: 17rem;
+      background-color: #F9FCFF;
+      width: 100%;
+      /* Match the result area width */
+      margin: 0 auto;
+    }
+
+    .border-dashed:hover {
+      border-color: gray;
+      background-color: #f2f9ff;
+    }
+
+    .instruction-text {
+      font-size: 1.7rem;
+      margin-top: 0.2rem;
+      color: gray
+    }
+
+    .compression-settings {
+      display: none;
+      width: 100%;
+      /* Match the result area width */
+      margin: 20px auto;
+      /* Added gap */
+    }
+
+    .additional-options {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .additional-options input[type="text"] {
+      width: 80px;
+      margin-right: 0.4rem;
+    }
+
+    .additional-options select {
+      margin-left: 0.3rem;
+    }
+
+    .toggle-icon {
+      transition: transform 0.2s;
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    .download-btn:disabled {
+      opacity: 0.6;
+      /* Make the button appear inactive */
+      cursor: not-allowed;
+      /* Change the cursor to indicate the button is disabled */
+      background-color: #cccccc;
+      /* Optional: Change background to a disabled color */
+      color: #666666;
+      /* Optional: Change text color when disabled */
+    }
+
+    .progress-bar {
+      position: relative;
+      height: 20px;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0;
+      background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+      background-size: 1rem 1rem;
+      background-color: #0d6efd;
+      animation: progress-bar-stripes 0.5s linear infinite;
+      transition: width 0.6s ease;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .progress-bar-completed {
+      height: 100%;
+      width: 100%;
+      background-color: #28a745;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      border-radius: 10px;
+      padding: 0;
+      text-align: center;
+    }
+
+    @keyframes progress-bar-stripes {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 3rem 0;
+      }
+    }
+
+
+
+
+    /*---------------------------------------------------------- media query ----------------------------------------------------- */
+
+    @media screen and (max-width: 400px) {
+
+      .instruction-text {
+        font-size: 1rem;
+        margin-top: 0.1rem;
+      }
+
+
+
+
+      .items {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media screen and (min-width: 401px) {
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 1rem;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+      }
+
+    }
+
+    @media screen and (max-width: 500px) {
+      .border-dashed {
+
+        height: 15rem;
+        background-color: #F9FCFF;
+        width: 100%;
+        /* Match the result area width */
+        margin: 0 auto;
+      }
+    }
+
+    @media screen and (min-width:990px) {
+      .middle-height {
+        height: 17rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="overflow-x-hidden">
+  <header
+    class="bg-gradient-to-r from-blue-500 to-blue-900 text-white sticky top-0 w-full z-50 shadow-lg mb-[20rem] header-height  ">
+    <div class="container mx-auto flex justify-between items-center p-2 md:p-4  md:px-20">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center space-x-2">
+        <img src="image/JPEG Compressor.svg" alt="Logo" class="h-6 md:h-8">
+
+      </a>
+
+      <!-- Hamburger Menu (visible on mobile) -->
+      <button id="menuToggle" class="block md:hidden focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+      <!-- Navigation Links -->
+      <nav id="navMenu"
+        class="fixed top-0 left-0  bg-gradient-to-r from-blue-800 to-blue-700 rounded-md md:bg-transparent md:from-transparent md:to-transparent text-white w-full h-1/5 md:h-auto transform -translate-y-full transition-all duration-500 md:static md:h-auto md:w-auto md:translate-y-0 md:flex md:items-center md:space-x-6 ">
+        <!-- Close Button (visible on mobile) -->
+        <button id="menuClose" class="absolute top-4 right-4 md:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Links -->
+        <a href="index.html" class="block px-4 py-2 text-lg   rounded md:inline   ">Home</a>
+        <a href="about.html" class="block px-4 py-2 text-lg   rounded md:inline  ">About</a>
+
+      </nav>
+    </div>
+  </header>
+
+
+
+  <main class="p-6 md:p-8 max-w-3xl mx-auto ">
+    <h1 class="text-center text-2xl md:text-3xl font-bold mb-2 md:mb-4">JPEG Compressor</h1>
+    <p class="text-center mb-8">JPEG compressor is a free online image optimization tool that can compress JPEG, PNG,
+      JPG, SVG, and WEBP images.</p>
+    <div class="border-2 border-dashed border-gray-600   cursor-pointer  p-4 md:p-7 text-center rounded-lg ">
+      <p class="instruction-text hidden sm:block text-2xl">Drag & drop files here or</p>
+      <p class="instruction-text  hidden sm:block">Paste the image from the clipboard (Ctrl-V or ⌘V)</p>
+      <p class="mt-2 text-sm text-center  hidden sm:block">Compress jpeg, png, gif, jpg, svg, webp, heic, tiff and ico.
+        Max 50 MB.</p>
+      <p class="mt-2 text-lg text-center font-semibold   sm:hidden">Choose Your File...</p>
+      <button id="selectFilesBtn"
+        class="bg-gradient-to-r from-blue-500 to-blue-900 text-white px-3 sm:px-4 py-1 sm:py-2 rounded flex items-center justify-center mx-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 7v4a1 1 0 001 1h3m10 0h3a1 1 0 001-1V7m-4 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2m0 0H4a1 1 0 00-1 1v4a1 1 0 001 1h3m10 0h3a1 1 0 001-1V7m-4 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v2" />
+        </svg>
+        Select Files
+      </button>
+      <p class="mt-2 text-base text-center   sm:hidden">Compress jpeg, png, gif, jpg, svg, webp, heic, tiff and
+        ico.
+        Max 50 MB.</p>
+      <div class="flex mt-1 md:mt-4 space-x-1 sm:space-x-2  gap-1">
+        <div id="thumbnails" class="flex space-x-1 sm:space-x-2"></div>
+        <button id="addMoreBtn"
+          class="hidden bg-blue-500 text-white rounded flex items-center justify-center">+</button>
+      </div>
+    </div>
+
+    <!-- setting -->
+    <div class="compression-settings mt-8 p-4 border rounded-lg">
+      <h2 class="text-center text-sm md:text-xl font-bold mb-4">Compression Settings</h2>
+      <!--  -->
+      <div class=" items mb-4">
+        <label for="quality" class="font-medium ">Compression Quality</label>
+        <select id="quality" class="border rounded p-1 sm:p-2  text-xs sm:text-sm">
+          <option>High Quality </option>
+          <option>Medium Quality </option>
+          <option>Low Quality </option>
+          <option>Additional Option</option>
+        </select>
+      </div>
+      <!--  -->
+      <div class="items  mb-4">
+        <label for="format" class="font-medium">Convert to</label>
+        <select id="format" class="border rounded p-2 text-xs sm:text-sm">
+          <option>Original Format</option>
+          <option>JPEG</option>
+          <option>PNG</option>
+          <option>WEBP</option>
+          <option>JPG</option>
+          <option>TIFF</option>
+
+        </select>
+      </div>
+
+      <div class="flex flex-wrap sm:flex-row-reverse justify-between items-center mb-4">
+        <div class="flex items-center">
+          <input type="checkbox" id="metadata" class="mr-2">
+          <label for="metadata" class="font-medium">Keep image metadata</label>
+        </div>
+        <button id="toggleOptions" class="text-blue-500 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 toggle-icon" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+          Show Additional Options
+        </button>
+
+      </div>
+      <div class="additional-options">
+        <div class="flex flex-wrap items-center mb-4 gap-1 sm:gap-2">
+          <input type="checkbox" id="resize" class="mr-2" checked>
+          <label for="resize" class="font-medium">Resize</label>
+          <div class="flex   gap-1">
+
+            <input type="text" placeholder="Width" class="dimension-input border rounded p-1    sm:p-2 sm:mx-2">
+            <input type="text" placeholder="Height" class="dimension-input border rounded p-1   sm:p-2">
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center mb-4">
+          <input type="checkbox" id="size" class="mr-2">
+          <label for="size" class="font-medium">Enter size</label>
+
+          <div>
+            <input type="text" placeholder="Size" class="size-input border rounded p-1 sm:p-2 mx-1 sm:mx-2">
+            <select id="size-unit" class="border rounded p-2  ">
+              <option>KB</option>
+              <option>MB</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- <button class="bg-green-500 text-white px-4 py-2 rounded w-full">Compress Images</button> -->
+      <button id="compress-btn" class="bg-green-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded w-full"> Compress
+        Images </button>
+    </div>
+
+  </main>
+
+  <div class="text-white p-4 md:p-8 md:px-24  shadow-lg mx-aut bg-gradient-to-r from-blue-500 to-blue-900">
+    <div class="container mx-auto flex flex-col md:flex-row items-center">
+      <div class="w-full md:w-1/2 pr-4">
+        <h1 class="text-xl md:text-3xl font-semibold mb-4  ">Optimize Bulk Images</h1>
+        <p class="mb-4">
+          Compress your images with our free online jpeg compressor that optimizes large images
+          to a smaller size without losing their original quality. We use sophisticated image
+          encoding technology to make sure that each image is analyzed and optimized with its
+          original width and height.
+        </p>
+        <p class="mb-4">
+          Our Compress jpeg supports different types of image formats such as JPEG, JPG, PNG,
+          SVG, WEBP, GIF, and Heic.
+        </p>
+        <p class="mb-4">
+          There are three options to upload the images by drag and drop, select a file from your
+          system and finally, copy and paste from your clipboard (Ctrl and V keys). In addition,
+          Users have the option to upload bulk images to optimize them all at once.
+        </p>
+      </div>
+      <div class="w-full md:w-1/2 flex items-center justify-center">
+        <img src="image/jpegcompressor700.png" alt="Illustration" class="w-full md:w-auto max-w-full h-auto">
+      </div>
+    </div>
+  </div>
+
+  <section class="bg-gray-100 py-5 text-gray-600 p-5 md:px-20 md:py-10">
+    <div class="container mx-auto px-4">
+      <div class="mb-3 md:mb-10 text-center">
+        <h2 class="text-lg md:text-4xl font-medium mb-4 text-gray-800">Why Use Our JPG Compressor?</h2>
+        <p class="text-justify text-black md:px-1">Our JPG Compressor uses cutting-edge algorithms to reduce the size
+          of images
+          while
+          maintaining quality. Using our compressor, the images will load faster and require less storage. It supports
+          formats like JPEG, JPG, PNG, SVG, WEBP, GIF, and HEIC.</p>
+        <p class="text-justify text-black md:px-1">Upload bulk images using drag and drop, select from files, or copy
+          and paste
+          from the
+          clipboard to optimize them all at once. Each image can be compressed to sizes as low as 200kb or even 50kb.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4  gap-2 md:gap-4">
+        <div class="bg-white border p-5 rounded shadow">
+          <img src="image/imageCom.svg" class="w-16 h-16 mx-auto mb-3" alt="Features of JPEG Optimizer">
+          <h3 class="text-lg font-semibold text-center text-gray-800">Features of JPEG Optimizer</h3>
+          <p class="text-center">Our JPG Compressor offers amazing features, including bulk image compression and
+            detailed information about saved sizes.</p>
+        </div>
+        <div class="bg-white border p-5 rounded shadow">
+          <img src="image/gui.svg" class="w-16 h-16 mx-auto mb-3" alt="Bulk Images, Formats">
+          <h3 class="text-lg font-semibold text-center text-gray-800">Bulk Images, Formats</h3>
+          <p class="text-center">Support for multiple image formats, including JPG, JPEG, SVG, PNG, WEBP, and GIF. jpeg
+            in zip formats or individually post-compression.</p>
+        </div>
+        <div class="bg-white border p-5 rounded shadow">
+          <img src="image/secure.svg" class="w-16 h-16 mx-auto mb-3" alt="Highly Secure">
+          <h3 class="text-lg font-semibold text-center text-gray-800">Highly Secure Image Compressor</h3>
+          <p class="text-center">No user data is saved. Files are deleted after each session, ensuring privacy and
+            security.</p>
+        </div>
+        <div class="bg-white border p-5 rounded shadow">
+          <img src="image/version.svg" class="w-16 h-16 mx-auto mb-3" alt="Copy-Paste">
+          <h3 class="text-lg font-semibold text-center text-gray-800">Copy-Paste/Drag & Drop</h3>
+          <p class="text-center">Easily upload images using drag and drop, selection from file, or pasting from the
+            clipboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- compressor -->
+  <section class="bg-gradient-to-r from-blue-500 to-blue-900 py-5 md:px-20">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col lg:flex-row items-center justify-center">
+        <div class="lg:w-1/2 py-3 text-center">
+          <img src="image/compressorjpeg.webp" class="ml-auto max-w-full h-auto" alt="JPEG Compressor" width="550"
+            height="500">
+        </div>
+        <div class="lg:w-1/2 py-3">
+          <h2 class="text-xl md:text-3xl text-white font-semibold mb-4 md:px-10">Compress JPEG</h2>
+          <p class="mb-4 text-white text-sm md:text-base md:px-10">
+            It's a free jpeg compressor tool that will always be free. You can use it as much as you compress JPEG files
+            and other image formats. There is no limit to using this JPG resizer to resize the images. There is no need
+            to sign up or log in to use this jpeg compressor tool. You can access our compress jpeg site on any device's
+            modern browser.
+          </p>
+          <p class="mb-4 text-white text-sm md:text-base md:px-10">
+            It has a user-friendly interface, and you have to upload the images by dragging and dropping, selecting
+            files, or pasting them from the clipboard. As soon as the images are uploaded, they will get optimized in a
+            few seconds displaying the full information about the image size before and after optimization. Once
+            compression is done, you can download the whole thing in one zip file or each file separately.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-8 mt-2 md:mt-10 md:px-20" id="services">
+    <div class="container mx-auto px-4">
+      <h3 class=" text-lg md:text-4xl font-base mb-4 text-gray-800 text-center">HOW TO COMPRESS A JPEG IN THREE STEPS?
+      </h3>
+      <p class="text-center mb-5 text-sm md:text-lg font-normal"> Below are the steps outlining how to optimize or
+        compress image
+        files using
+        the AI Image Compressor:</p>
+      <div class="flex flex-col lg:flex-row">
+        <div class="lg:w-1/2 mb-8">
+          <div class="relative">
+            <div class="overflow-hidden mx-auto w-9/12">
+              <img src="image/jpegcompare2.png" alt="Compare Example" class="w-full object-cover ">
+            </div>
+            <div class="absolute inset-0 mx-auto w-9/12">
+              <img src="image/jpegcompare1.png" alt="Compare Overlay" class="w-full object-cover opacity-50">
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-1/2 space-y-8">
+          <div class="flex items-start space-x-4 ">
+            <img src="image/webimg.png" alt="" width="36" class="flex-shrink-0 mt-2 ">
+            <div>
+              <h3 class="text-lg md:text-xl text-gray-800 font-medium ">First Come to Website</h3>
+              <p class="py-1 font-base md:pr-10">Visit our <a href="https://jpegcompressor.com/"
+                  class="text-blue-500 underline">Jpeg
+                  Compressor</a>,
+                then upload the image through select file, drag and drop, or paste from your clipboard (formats: JPG,
+                JPEG, PNG, SVG, WEBP, Heic, and GIF).</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <img src="image/compimg.png" alt="" width="44" class="flex-shrink-0 mt-2">
+            <div>
+              <h3 class=" text-lg md:text-xl text-gray-800 font-medium ">Second Compress and Compare</h3>
+              <p class="py-1font-base md:pr-10">Once compression is done, you will have many options such as image
+                comparison and viewing differences
+                between the original and compressed version.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <img src="image/imgdownload.png" alt="" width="44" class="flex-shrink-0 mt-2">
+            <div>
+              <h3 class=" text-lg md:text-xl text-gray-800 font-medium ">Last Download Image</h3>
+              <p class="py-1 font-base md:pr-10">Once compared, you can download the image individually or as a zip file
+                from the bottom of the image
+                frame.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- testtimonial -->
+  <section class="py-10 px-5 md:px-30 bg-gray-100">
+    <div class="container mx-auto  ">
+      <h3 class=" text-lg md:text-4xl font-base mb-4 text-gray-800 text-center">Testimonials</h3>
+      <p class="text-center text-gray-700 mb-8 md:mb-20">What our Users say about us</p>
+      <div class="flex justify-center flex-wrap justify-center md:gap-1 gap-8 ">
+        <!-- Testimonial 1 -->
+        <div class="w-full max-w-md text-center relative z-10">
+          <div class="bg-white rounded-lg shadow-md p-6 relative">
+            <span class="text-4xl text-blue-500 mb-4 block">❝</span>
+            <p class="text-gray-600 pb-5">
+              My favorite image compression tool for both professional and personal projects.
+            </p>
+            <!-- User Image at Center Bottom -->
+            <div class="absolute inset-x-0 bottom-0 transform translate-y-1/2">
+              <img src="image/testimonial1.png" alt="Rahul Rawat" class="w-20 h-20 rounded-full mx-auto    shadow-lg">
+            </div>
+          </div>
+          <div class="mt-14">
+            <!-- Adjusted margin to accommodate the floating image -->
+            <h3 class="font-bold text-gray-800">Rahul Rawat</h3>
+            <p class="text-gray-600">Frontend Developer</p>
+            <div class="flex justify-center mt-1">
+              <!-- 5 Star SVG Icons -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <!-- Repeat SVGs for more stars -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 (Middle) -->
+        <div class="w-full max-w-md text-center z-20 transform scale-110 relative">
+          <!-- Testimonial Card -->
+          <div class="bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg shadow-lg p-8 relative">
+            <span class="text-4xl text-gray-300 mb-4 block">❝</span>
+            <p class="text-white pb-5">
+              This website deletes images immediately after compression, it's an outstanding aspect.
+            </p>
+            <!-- User Image -->
+            <div class="absolute -bottom-10 left-1/2 transform -translate-x-1/2">
+              <img src="image/testimonial2.png" alt="Sanaullah" class="w-20 h-20 rounded-full   shadow-lg">
+            </div>
+          </div>
+          <!-- User Info -->
+          <div class="mt-12">
+            <h3 class="font-semibold text-gray-800">Sanaullah</h3>
+            <p class="text-gray-700 text-sm">Full Stack Developer</p>
+            <div class="flex justify-center mt-1">
+              <!-- Star Ratings -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <!-- Add more stars as needed -->
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Testimonial 3 -->
+        <div class="w-full max-w-md text-center relative">
+          <div class="bg-white rounded-lg shadow-md p-6 relative z-10">
+            <span class="text-4xl text-blue-500 mb-4 block">❝</span>
+            <p class="text-gray-600 pb-5">
+              I adore this tool for its quick and unmatched quality compared to others.
+            </p>
+            <!-- User Picture at Center Bottom -->
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+              <img src="image/testimonial3.png" alt="Shankar Ravidas" class="w-20 h-20 rounded-full  shadow-lg">
+            </div>
+          </div>
+          <div class="mt-12"> <!-- Added margin-top to avoid overlap with picture -->
+            <h3 class="font-bold text-gray-800">Shankar Ravidas</h3>
+            <p class="text-gray-600">Android Developer</p>
+            <div class="flex justify-center mt-1">
+              <!-- 5 Star SVG Icons -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
+              </svg>
+              <!-- Repeat for additional stars -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!--  -->
+  <section class="bg-gradient-to-r from-blue-400 to-blue-800 py-5 md:px-20">
+    <div class="container mx-auto px-4">
+      <div class="flex gap-2 flex-col md:flex-row    justify-between  p-3 md:py-5 items-center ">
+        <div class="text-white">
+          <h2 class="text-center md:text-start text-lg md:text-3xl">The Best App to increase your productivity</h2>
+          <p class="px-3 ">This is the best jpeg compressor on the internet, You can easily optimize multiple
+            images simultaneously.
+            It optimizes and maintains the quality of the images without changing their actual width and height.</p>
+
+        </div>
+        <div class="">
+
+          <a href="https://play.google.com/store/apps/details?id=com.tessco.jpegcompressor" target="_blank">
+
+            <img src="https://jpegcompressor.com/image/playstore.png" alt="">
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <section>
+
+    <section class="bg-gray-50 py-8 md:px-20">
+      <div class="container mx-auto px-4">
+        <h2 class="text-xl md:text-3xl text-gray-800 text-center font-semibold mb-4">Frequently Asked Questions (FAQ's)
+        </h2>
+        <div class="space-y-4" id="accordion">
+          <!-- FAQ Item 1 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. What is jpeg compressor?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>This Jpeg compressor reduces the binary representation of the image file size. You can store more
+                images and save storage and bandwidth costs. It removes redundancy and saves space without compromising
+                image quality.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 2 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. What is the advantage of using this jpeg compressor?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>This is the best jpeg compressor online, optimizing multiple images while maintaining quality. It works
+                with JPEG, JPG, PNG, SVG, GIF, and WEBP formats.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 3 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium  hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. Is your compressor an alternative to tinyjpg?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>Yes, our tool is an alternative, offering enhanced compression by removing redundancy while preserving
+                image quality better than other tools.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 4 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium  hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. Does it compress 50 KB images or more?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>Yes, it can easily compress images of various sizes, including 50 KB and more.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 5 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium  hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. How much time does it take to optimize images?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>The time depends on the number and size of images. It usually takes 5 to 10 seconds for large batches.
+              </p>
+            </div>
+          </div>
+          <!-- FAQ Item 6 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. Does it work as a GIF Compressor?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>Yes, it compresses GIFs effectively without compromising animation quality.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 7 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium  hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. How does JPEG Compression work?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>Upload an image in JPEG, PNG, SVG, JPG, WEBP, Heic, or GIF format, and compress it. You can compare
+                sizes before and after, and download the images individually or as a zip file.</p>
+            </div>
+          </div>
+          <!-- FAQ Item 8 -->
+          <div class="bg-white rounded-lg shadow-md">
+            <button
+              class="flex items-center justify-between w-full p-4 text-left text-lg font-medium  hover:text-indigo-600 focus:outline-none accordion-button"
+              aria-expanded="false">
+              Q. What is the upload limit?
+            </button>
+            <div class="p-4 text-gray-700 border-t hidden">
+              <p>Upload up to 20 images at a time, each under 10 MB. Compress as many images as you like for free.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+
+
+    <footer class=" py-5  p-1 md:px-3 text-white text-sm  bg-gradient-to-r from-blue-500 to-blue-900" ;>
+
+      <div class="   flex flex-col flex-wrap  items-center gap-2 md:justify-around md:flex-row    ">
+
+        <div class="text-left">
+
+          <p class="mb-0 text-base">© 2024 | All Rights Reserved</p>
+
+        </div>
+        <div class="flex gap-2 md:hidden  ">
+
+
+
+          <span class="opacity-90">Follow us</span>
+
+          <a href="https://t.me/s/jpegcompressor" target="_blank" class="flex items-center">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="w-6 h-6    fill-current text-white">
+
+              <path
+                d="M248 8C111 8 0 119 0 256S111 504 248 504 496 393 496 256 385 8 248 8zM363 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5q-3.3 .7-104.6 69.1-14.8 10.2-26.9 9.9c-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3q.8-6.7 18.5-13.7 108.4-47.2 144.6-62.3c68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9a10.5 10.5 0 0 1 3.5 6.7A43.8 43.8 0 0 1 363 176.7z" />
+
+            </svg>
+
+          </a>
+
+          <a href="https://www.reddit.com/r/JpegCompressor/" target="_blank" class="flex items-center">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+              class="w-6 h-6  md:w-8 md:h-8 fill-current text-white">
+
+              <path
+                d="M0 256C0 114.6 114.6 0 256 0S512 114.6 512 256s-114.6 256-256 256L37.1 512c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256zM349.6 153.6c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34c-34.5 3.7-61.4 33-61.4 68.4l0 .2c-37.5 1.6-71.8 12.3-99 29.1c-10.1-7.8-22.8-12.5-36.5-12.5c-33 0-59.8 26.8-59.8 59.8c0 24 14.1 44.6 34.4 54.1c2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54c0-33-26.8-59.8-59.8-59.8c-13.7 0-26.3 4.6-36.4 12.4c-27.4-17-62.1-27.7-100-29.1l0-.2c0-25.4 18.9-46.5 43.4-49.9l0 0c4.4 18.8 21.3 32.8 41.5 32.8z" />
+
+            </svg>
+
+          </a>
+        </div>
+
+
+        <div class="flex sm:gap-1  ">
+          <div class="  gap-2 hidden md:flex  ">
+
+            <span class="opacity-90">Follow us</span>
+
+            <a href="https://t.me/s/jpegcompressor" target="_blank" class="flex items-center">
+
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="w-6 h-6   fill-current text-white">
+
+                <path
+                  d="M248 8C111 8 0 119 0 256S111 504 248 504 496 393 496 256 385 8 248 8zM363 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5q-3.3 .7-104.6 69.1-14.8 10.2-26.9 9.9c-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3q.8-6.7 18.5-13.7 108.4-47.2 144.6-62.3c68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9a10.5 10.5 0 0 1 3.5 6.7A43.8 43.8 0 0 1 363 176.7z" />
+
+              </svg>
+
+            </a>
+
+            <a href="https://www.reddit.com/r/JpegCompressor/" target="_blank" class="flex items-center">
+
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-6 h-6   fill-current text-white">
+
+                <path
+                  d="M0 256C0 114.6 114.6 0 256 0S512 114.6 512 256s-114.6 256-256 256L37.1 512c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256zM349.6 153.6c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34c-34.5 3.7-61.4 33-61.4 68.4l0 .2c-37.5 1.6-71.8 12.3-99 29.1c-10.1-7.8-22.8-12.5-36.5-12.5c-33 0-59.8 26.8-59.8 59.8c0 24 14.1 44.6 34.4 54.1c2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54c0-33-26.8-59.8-59.8-59.8c-13.7 0-26.3 4.6-36.4 12.4c-27.4-17-62.1-27.7-100-29.1l0-.2c0-25.4 18.9-46.5 43.4-49.9l0 0c4.4 18.8 21.3 32.8 41.5 32.8z" />
+
+              </svg>
+
+            </a>
+          </div>
+
+
+
+          <div class="text-xs sm:text-base  ">
+
+            <a href="about.html" class="text-white hover:text-gray-400 mr-1  sm:mx-2">About Us</a>|
+
+            <a href="privacy.html" class="text-white hover:text-gray-400 mx-1 sm:mx-2">Privacy Policy</a>|
+
+            <a href="terms.html" class="text-white hover:text-gray-400   sm:mx-2">Terms & Conditions</a>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </footer>
+
+
+</html>
+<script src="app.js"></script>
+</body>
+
+</html>

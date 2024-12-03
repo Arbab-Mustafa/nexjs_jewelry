@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * {box-sizing: border-box;}
+  body {font-family: Arial, sans-serif;}
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .popup-content {
+    background: linear-gradient(45deg, #009ffd, #2a2a72);
+    width: 800px;
+    padding: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 8px;
+  }
+  .popup-header, .popup-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .popup-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+  }
+  .popup-footer {
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    margin-top: 10px;
+  }
+  .close-btn {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .img-comp-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin: 10px 0;
+  }
+  .img-comp-img {
+    position: absolute;
+    width: auto;
+    height: auto;
+    overflow:hidden;
+  }
+  .img-comp-img img {
+    display: block;
+    vertical-align: middle;
+  }
+  .img-comp-slider {
+    position: absolute;
+    z-index: 9;
+    cursor: ew-resize;
+    width: 40px;
+    height: 40px;
+    background-color: #2196F3;
+    opacity: 0.7;
+    border-radius: 50%;
+  }
+  .img-comp-line {
+    position: absolute;
+    z-index: 8;
+    width: 2px;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+  }
+  .img-comp-text {
+    position: absolute;
+    z-index: 10;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black;
+  }
+  .img-comp-text.left {
+    left: 10px;
+    top: 10px;
+  }
+  .img-comp-text.right {
+    right: 10px;
+    top: 10px;
+  }
+  .button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<button id="compare-btn">Compare</button>
+
+<div class="popup-overlay" id="popup">
+  <div class="popup-content">
+    <div class="popup-header">
+      <span>filename.jpg</span>
+      <span class="close-btn" id="close-btn">&times;</span>
+    </div>
+    <div class="img-comp-container">
+      <div class="img-comp-img">
+        <img src="image/dev.png" width="780" height="400">
+        <div class="img-comp-text left">Before</div>
+      </div>
+      <div class="img-comp-img img-comp-overlay">
+        <img src="image/HQ.jpeg" width="780" height="400">
+      </div>
+      <div class="img-comp-text right">After</div>
+    </div>
+    <div class="popup-footer">
+      <span>Before size: 6.2 MB &rarr; After size: 3.8 MB (45% saved)</span>
+      <div>
+        <button class="button">Option 1</button>
+        <button class="button">Option 2</button>
+        <button class="button">Option 3</button>
+        <button class="button"><img src="image/fullscreen.png" width="10px" height="10px"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initComparisons() {
+    var x, i;
+    x = document.getElementsByClassName("img-comp-overlay");
+    for (i = 0; i < x.length; i++) {
+      compareImages(x[i]);
+    }
+    function compareImages(img) {
+      var slider, line, clicked = 0, w, h;
+      w = img.offsetWidth;
+      h = img.offsetHeight;
+      img.style.width = (w / 2) + "px";
+      
+      // Remove any existing sliders and lines
+      if (img.parentElement.getElementsByClassName("img-comp-slider").length > 0) {
+        img.parentElement.removeChild(img.parentElement.getElementsByClassName("img-comp-slider")[0]);
+      }
+      if (img.parentElement.getElementsByClassName("img-comp-line").length > 0) {
+        img.parentElement.removeChild(img.parentElement.getElementsByClassName("img-comp-line")[0]);
+      }
+      
+      slider = document.createElement("DIV");
+      slider.setAttribute("class", "img-comp-slider");
+      line = document.createElement("DIV");
+      line.setAttribute("class", "img-comp-line");
+      img.parentElement.insertBefore(slider, img);
+      img.parentElement.insertBefore(line, img);
+      slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
+      slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
+      line.style.left = (w / 2) - 1 + "px";
+      line.style.height = h + "px";
+    
+      slider.addEventListener("mousedown", slideReady);
+      window.addEventListener("mouseup", slideFinish);
+      slider.addEventListener("touchstart", slideReady);
+      window.addEventListener("touchend", slideFinish);
+    
+      function slideReady(e) {
+        e.preventDefault();
+        clicked = 1;
+        window.addEventListener("mousemove", slideMove);
+        window.addEventListener("touchmove", slideMove);
+      }
+      function slideFinish() {
+        clicked = 0;
+      }
+      function slideMove(e) {
+        var pos;
+        if (clicked == 0) return false;
+        pos = getCursorPos(e);
+        if (pos < 0) pos = 0;
+        if (pos > w) pos = w;
+        slide(pos);
+      }
+      function getCursorPos(e) {
+        var a, x = 0;
+        e = (e.changedTouches) ? e.changedTouches[0] : e;
+        a = img.getBoundingClientRect();
+        x = e.pageX - a.left;
+        x = x - window.pageXOffset;
+        return x;
+      }
+      function slide(x) {
+        img.style.width = x + "px";
+        slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
+        line.style.left = img.offsetWidth - 1 + "px";
+        if (x === 0) {
+          document.querySelector('.img-comp-text.left').style.display = 'block';
+          document.querySelector('.img-comp-text.right').style.display = 'none';
+        } else if (x === w) {
+          document.querySelector('.img-comp-text.left').style.display = 'none';
+          document.querySelector('.img-comp-text.right').style.display = 'block';
+        } else {
+          document.querySelector('.img-comp-text.left').style.display = 'block';
+          document.querySelector('.img-comp-text.right').style.display = 'block';
+        }
+      }
+    }
+  }
+
+  document.getElementById('compare-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'flex';
+    initComparisons();  
+  });
+
+  document.getElementById('close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

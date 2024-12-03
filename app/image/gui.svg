@@ -1,0 +1,7 @@
+<svg id="gui" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <circle id="Ellipse_2" data-name="Ellipse 2" cx="1" cy="1" r="1" transform="translate(19 7)" fill="#125cab"/>
+  <circle id="Ellipse_3" data-name="Ellipse 3" cx="1" cy="1" r="1" transform="translate(22 7)" fill="#125cab"/>
+  <circle id="Ellipse_4" data-name="Ellipse 4" cx="1" cy="1" r="1" transform="translate(25 7)" fill="#125cab"/>
+  <path id="Path_3" data-name="Path 3" d="M28,4H4A2,2,0,0,0,2,6V26a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V6a2,2,0,0,0-2-2Zm0,2v4H4V6ZM4,12h6V26H4Zm8,14V12H28V26Z" fill="#125cab"/>
+  <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" width="32" height="32" fill="none"/>
+</svg>
