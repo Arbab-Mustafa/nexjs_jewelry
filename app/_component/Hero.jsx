@@ -4,10 +4,12 @@ import React, { useState, useEffect } from "react";
 const Hero = () => {
   // Array of image URLs
   const images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9UM4bKMF1sT6AgedtbRFQBLRr1FUS6tMAqX9Rck6p8RLkmuAu9r94Dekg9EKLcJ0MEwo&usqp=CAU",
+    "https://png.pngtree.com/background/20231017/original/pngtree-d-rendering-of-vibrant-gemstones-and-diamonds-on-a-white-background-picture-image_5585710.jpg",
+    "https://cdn.create.vista.com/api/media/small/53351475/stock-photo-colored-glass-diamonds",
 
     "https://burgundydiamonds.com/wp-content/uploads/2023/08/Pink-yellow-and-white-diamonds.webp",
     "https://png.pngtree.com/background/20231017/original/pngtree-vibrant-jewel-toned-diamonds-arranged-on-a-white-background-in-3d-picture-image_5585876.jpg",
+    "https://img.freepik.com/premium-photo/diamonds-black-background_1097137-557.jpg",
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
